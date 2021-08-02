@@ -1,0 +1,23 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t townsfolk/multi-docker -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true townsfolk/multi-docker npm test -- --coverage
+
+after_success:
+  - docker build -t townsfolk/multi-docker-client ./client
+  - docker build -t townsfolk/multi-docker-nginx ./nginx
+  - docker build -t townsoflk/multi-docker-server ./server
+  - docker build -t townsoflk/multi-docker-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push townsfolk/multi-docker-client
+  - docker push townsfolk/multi-docker-nginx
+  - docker push townsfolk/multi-docker-server
+  - docker push townsfolk/multi-docker-worker
