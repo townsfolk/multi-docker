@@ -12,8 +12,8 @@ script:
 after_success:
   - docker build -t townsfolk/multi-docker-client ./client
   - docker build -t townsfolk/multi-docker-nginx ./nginx
-  - docker build -t townsoflk/multi-docker-server ./server
-  - docker build -t townsoflk/multi-docker-worker ./worker
+  - docker build -t townsfolk/multi-docker-server ./server
+  - docker build -t townsfolk/multi-docker-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
