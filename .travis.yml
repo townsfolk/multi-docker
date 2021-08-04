@@ -21,3 +21,15 @@ after_success:
   - docker push townsfolk/multi-docker-nginx
   - docker push townsfolk/multi-docker-server
   - docker push townsfolk/multi-docker-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "multi-docker"
+  env: "multi-docker"
+  bucket_name: "elasticbeanstalk-us-east-2-424884779852"
+  bucket_path: "docker-multi"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
